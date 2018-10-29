@@ -4,6 +4,8 @@
 /public/bundles/
 /var/
 /vendor/
+/.idea/
+/composer.lock
 ###< symfony/framework-bundle ###
 
 ###> symfony/web-server-bundle ###
