@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Message;
+namespace Kaby\Component\Message;
 
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;

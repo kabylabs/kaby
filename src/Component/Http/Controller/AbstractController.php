@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Http\Controller;
+namespace Kaby\Component\Http\Controller;
 
-use App\Component\Http\Request\RequestContainerTrait;
-use App\Component\Http\Response\ApiResponse;
-use App\Component\Message\AbstractMessage;
+use Kaby\Component\Http\Request\RequestContainerTrait;
+use Kaby\Component\Http\Response\ApiResponse;
+use Kaby\Component\Message\AbstractMessage;
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;

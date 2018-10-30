@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Message;
+namespace Kaby\Component\Message;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>

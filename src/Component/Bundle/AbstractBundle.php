@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Bundle;
+namespace Kaby\Component\Bundle;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

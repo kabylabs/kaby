@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Repository;
+namespace Kaby\Component\Repository;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>

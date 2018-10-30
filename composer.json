@@ -1,7 +1,6 @@
 {
-    "name": "kaby/kaby-core",
-    "description": "Symfony Kaby Component",
-    "keywords": ["symfony", "kabylabs", "kaby-core"],
+    "name": "kaby/kaby",
+    "description": "The Symfony Higher Framework",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,81 +9,19 @@
             "email": "arifsetiantoo@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "php": "^7.1.3",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "doctrine/annotations": "^1.6",
-        "friendsofsymfony/rest-bundle": "^2.4",
-        "funct/funct": "^1.4",
-        "gedmo/doctrine-extensions": "^2.4",
-        "pagerfanta/pagerfanta": "^2.0",
-        "ramsey/uuid-doctrine": "^1.5",
-        "sensio/framework-extra-bundle": "^5.2",
-        "stof/doctrine-extensions-bundle": "^1.3",
-        "symfony/console": "*",
-        "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "*",
-        "symfony/messenger": "*",
-        "symfony/orm-pack": "^1.0",
-        "symfony/serializer": "*",
-        "symfony/twig-bundle": "*",
-        "symfony/validator": "*",
-        "symfony/yaml": "*",
-        "willdurand/hateoas-bundle": "^1.4"
-    },
-    "require-dev": {
-        "symfony/dotenv": "*",
-        "symfony/var-dumper": "*",
-        "symfony/web-server-bundle": "*"
-    },
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
-        "optimize-autoloader": true
+      "php": "^7.1.3",
+      "ext-ctype": "*",
+      "ext-iconv": "*",
+      "funct/funct": "^1.4",
+      "pagerfanta/pagerfanta": "^2.0",
+      "ramsey/uuid-doctrine": "^1.5",
+      "willdurand/hateoas-bundle": "^1.4"
     },
     "autoload": {
         "psr-4": {
-            "Kaby-Core\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
-        },
-        "symfony": {
-            "allow-contrib": false,
-            "require": "4.1.*"
+            "Kaby\\": "src/"
         }
     }
 }

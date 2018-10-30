@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Repository;
+namespace Kaby\Component\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;

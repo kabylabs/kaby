@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Http\Response;
+namespace Kaby\Component\Http\Response;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\ConstraintViolationListInterface;

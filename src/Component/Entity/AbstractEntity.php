@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Entity;
+namespace Kaby\Component\Entity;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

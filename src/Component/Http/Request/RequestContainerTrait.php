@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Http\Request;
+namespace Kaby\Component\Http\Request;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
