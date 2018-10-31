@@ -11,13 +11,21 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "php": "^7.1.3",
-      "ext-ctype": "*",
-      "ext-iconv": "*",
-      "funct/funct": "^1.4",
-      "pagerfanta/pagerfanta": "^2.0",
-      "ramsey/uuid-doctrine": "^1.5",
-      "willdurand/hateoas-bundle": "^1.4"
+        "php": "^7.1.3",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/annotations": "^1.6",
+        "funct/funct": "^1.4",
+        "gedmo/doctrine-extensions": "^2.4",
+        "pagerfanta/pagerfanta": "^2.0",
+        "ramsey/uuid-doctrine": "^1.5",
+        "stof/doctrine-extensions-bundle": "^1.3",
+        "symfony/messenger": "*",
+        "symfony/orm-pack": "^1.0",
+        "symfony/serializer": "*",
+        "symfony/validator": "*",
+        "symfony/yaml": "*",
+        "willdurand/hateoas-bundle": "^1.4"
     },
     "autoload": {
         "psr-4": {
