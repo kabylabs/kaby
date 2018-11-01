@@ -35,7 +35,7 @@ abstract class AbstractBundle extends Bundle
      */
     protected function getMappingDriver(): array
     {
-        return [__DIR__ . sprintf('/%s/Resources/config/doctrine', $this->getBundleName()) => $this->getModelNamespace()];
+        return [sprintf('/%s/Resources/config/doctrine', $this->getBundleName()) => $this->getModelNamespace()];
     }
 
     /**
