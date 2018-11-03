@@ -18,34 +18,13 @@ final class ApiResponse
     private $params;
 
     /**
-     * @var int
-     */
-    private $code;
-
-    /**
-     * @param $code
-     *
-     * @return ApiResponse
-     */
-    public function setStatusCode($code): ApiResponse
-    {
-        $this->code = $code;
-        $this->params['meta']['status'] = $code;
-        $this->params['meta']['success'] = $code >= 200 && $code < 300;
-        $this->params['meta']['hostname'] = gethostname();
-
-        return $this;
-    }
-
-    /**
      * @param $data
      *
      * @return JsonResponse
      */
     public function success($data): JsonResponse
     {
-        $this->code = JsonResponse::HTTP_OK;
-        $this->setStatusCode($this->code);
+        $this->params['meta']['hostname'] = gethostname();
         $this->params['data'] = $data;
 
         return JsonResponse::create($this->params);
@@ -58,8 +37,7 @@ final class ApiResponse
      */
     public function error(ConstraintViolationListInterface $violations): JsonResponse
     {
-        $this->code = JsonResponse::HTTP_BAD_REQUEST;
-        $this->setStatusCode($this->code);
+        $this->params['meta']['hostname'] = gethostname();
 
         foreach ($violations as $violation) {
             $this->params['errors'][] = [
@@ -68,6 +46,6 @@ final class ApiResponse
             ];
         }
 
-        return JsonResponse::create($this->params, $this->code, ['Content-Type' => 'application/problem+json']);
+        return JsonResponse::create($this->params, JsonResponse::HTTP_BAD_REQUEST, ['Content-Type' => 'application/problem+json']);
     }
 }
