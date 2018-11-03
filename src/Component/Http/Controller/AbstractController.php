@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Http\Controller;
 
+use Kaby\Component\Entity\AbstractEntity;
 use Kaby\Component\Http\Request\RequestContainerTrait;
 use Kaby\Component\Http\Response\ApiResponse;
 use Kaby\Component\Message\AbstractMessage;
@@ -74,6 +75,17 @@ abstract class AbstractController extends BaseController
 
         $data = $this->dispatch($message);
 
+        return $this->response($data, $normalizer);
+    }
+
+    /**
+     * @param AbstractEntity           $data
+     * @param NormalizerInterface|null $normalizer
+     *
+     * @return JsonResponse
+     */
+    protected function response(AbstractEntity $data, NormalizerInterface $normalizer = null): JsonResponse
+    {
         if ($normalizer) {
             $data = $normalizer->normalize($data);
         }
