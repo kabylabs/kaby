@@ -61,11 +61,11 @@ abstract class AbstractController extends BaseController
 
     /**
      * @param AbstractMessage          $message
-     * @param null|NormalizerInterface $normalizer
+     * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
      */
-    protected function handle(AbstractMessage $message, ?NormalizerInterface $normalizer): JsonResponse
+    protected function handle(AbstractMessage $message, NormalizerInterface $normalizer = null): JsonResponse
     {
         $violations = $this->validate($message);
         if (count($violations) > 0) {
