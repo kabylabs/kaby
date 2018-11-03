@@ -28,7 +28,8 @@
         "symfony/serializer": "*",
         "symfony/validator": "*",
         "symfony/yaml": "*",
-        "willdurand/hateoas-bundle": "^1.4"
+        "willdurand/hateoas-bundle": "^1.4",
+        "marc-mabe/php-enum": "^3.0@dev"
     },
     "autoload": {
         "psr-4": {
