@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kaby\Component\Bundle;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -15,6 +16,8 @@ abstract class AbstractBundle extends Bundle
 {
     /**
      * @param ContainerBuilder $container
+     *
+     * @throws \ReflectionException
      */
     public function build(ContainerBuilder $container)
     {
@@ -24,6 +27,7 @@ abstract class AbstractBundle extends Bundle
 
     /**
      * @return DoctrineOrmMappingsPass
+     * @throws \ReflectionException
      */
     public function buildMappingCompilerPass()
     {
@@ -32,16 +36,15 @@ abstract class AbstractBundle extends Bundle
 
     /**
      * @return array
+     * @throws \ReflectionException
      */
-    protected function getMappingDriver(): array
+    private function getMappingDriver(): array
     {
-        return [sprintf('%s/Resources/config/doctrine', $this->getBundleName()) => $this->getModelNamespace()];
-    }
+        $reflection = new ReflectionClass(get_called_class());
+        $path = dirname($reflection->getFileName()) . '/Resources/config/doctrine';
 
-    /**
-     * @return string
-     */
-    abstract protected function getBundleName(): string;
+        return [$path => $this->getModelNamespace()];
+    }
 
     /**
      * @return string
