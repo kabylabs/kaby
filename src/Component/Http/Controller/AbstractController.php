@@ -79,12 +79,12 @@ abstract class AbstractController extends BaseController
     }
 
     /**
-     * @param AbstractEntity           $data
+     * @param                          $data
      * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
      */
-    protected function response(AbstractEntity $data, NormalizerInterface $normalizer = null): JsonResponse
+    protected function response($data, NormalizerInterface $normalizer = null): JsonResponse
     {
         if ($normalizer) {
             $data = $normalizer->normalize($data);
