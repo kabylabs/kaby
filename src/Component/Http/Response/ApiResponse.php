@@ -43,7 +43,7 @@ final class ApiResponse
         }
 
         if ($normalizer) {
-            $this->params = $normalizer->normalize($this->params);
+            $this->params['data'] = $normalizer->normalize($this->params['data']);
         }
 
         return JsonResponse::create($this->params);
