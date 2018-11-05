@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Http\Controller;
 
+use Hateoas\Representation\PaginatedRepresentation;
 use Kaby\Component\Http\Request\RequestContainerTrait;
 use Kaby\Component\Http\Response\ApiResponse;
 use Kaby\Component\Message\AbstractMessage;
@@ -86,6 +87,23 @@ abstract class AbstractController extends BaseController
     protected function response($data, NormalizerInterface $normalizer = null): JsonResponse
     {
         dump($data);
+        if ($data instanceof PaginatedRepresentation) {
+            $arr = [];
+            $arr['pagination'] = [
+                'page'  => $data->getPage(),
+                'limit' => $data->getLimit(),
+                'pages' => $data->getPages(),
+                'total' => $data->getTotal(),
+            ];
+
+            $arr['data'] = $data->getInline()->getResources();
+
+            dump($arr);
+
+            $data = $arr;
+
+            dump($data);
+        }
 
         if ($normalizer) {
             $data = $normalizer->normalize($data);
