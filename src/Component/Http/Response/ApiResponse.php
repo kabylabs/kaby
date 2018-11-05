@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Http\Response;
 
+use Hateoas\Representation\PaginatedRepresentation;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
@@ -18,14 +20,31 @@ final class ApiResponse
     private $params;
 
     /**
-     * @param $data
+     * @param                          $data
+     * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
      */
-    public function success($data): JsonResponse
+    public function success($data, NormalizerInterface $normalizer = null): JsonResponse
     {
         $this->params['meta']['hostname'] = gethostname();
-        $this->params['data'] = $data;
+
+        if ($data instanceof PaginatedRepresentation) {
+            $this->params['pagination'] = [
+                'page'  => $data->getPage(),
+                'limit' => $data->getLimit(),
+                'pages' => $data->getPages(),
+                'total' => $data->getTotal(),
+            ];
+
+            $this->params['data'] = $data->getInline()->getResources();
+        } else {
+            $this->params['data'] = $data;
+        }
+
+        if ($normalizer) {
+            $this->params = $normalizer->normalize($this->params);
+        }
 
         return JsonResponse::create($this->params);
     }

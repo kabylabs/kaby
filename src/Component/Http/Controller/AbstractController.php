@@ -86,23 +86,7 @@ abstract class AbstractController extends BaseController
      */
     protected function response($data, NormalizerInterface $normalizer = null): JsonResponse
     {
-        if ($data instanceof PaginatedRepresentation) {
-            $arr['pagination'] = [
-                'page'  => $data->getPage(),
-                'limit' => $data->getLimit(),
-                'pages' => $data->getPages(),
-                'total' => $data->getTotal(),
-            ];
-
-            $arr['data'] = $data->getInline()->getResources();
-            $data = $arr;
-        }
-
-        if ($normalizer) {
-            $data = $normalizer->normalize($data);
-        }
-
-        return $this->apiResponse->success($data);
+        return $this->apiResponse->success($data, $normalizer);
     }
 
     /**
