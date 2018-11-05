@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Http\Controller;
 
-use Kaby\Component\Entity\AbstractEntity;
 use Kaby\Component\Http\Request\RequestContainerTrait;
 use Kaby\Component\Http\Response\ApiResponse;
 use Kaby\Component\Message\AbstractMessage;
