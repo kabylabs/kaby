@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Message;
 
-use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -15,79 +12,36 @@ abstract class AbstractQuery extends AbstractMessage
     /**
      * @var int
      */
+    const CURRENT_PAGE = 1;
+
+    /**
+     * @var int
+     */
     const MAX_PER_PAGE = 50;
 
     /**
      * @var int
      */
-    private $currentPage;
+    private $page = self::CURRENT_PAGE;
 
     /**
      * @var int
      */
-    private $maxPerPage;
+    private $limit = self::MAX_PER_PAGE;
 
     /**
-     * @var bool
+     * @return int
      */
-    private $paginated = false;
-
-    /**
-     * @param Request $request
-     *
-     * @return $this
-     */
-    public function paginateFromRequest(Request $request)
+    public function getPage(): int
     {
-        return $this->paginate(
-            $request->get('page', 1),
-            $request->get('limit', self::MAX_PER_PAGE)
-        );
-    }
-
-    /**
-     * @param int $currentPage
-     * @param int $maxPerPage
-     *
-     * @return $this
-     */
-    public function paginate($currentPage, $maxPerPage = self::MAX_PER_PAGE)
-    {
-        if ($maxPerPage > 100) {
-            throw new InvalidArgumentException('Maximum per page is 100 rows');
-        }
-
-        $this->currentPage = $currentPage;
-        $this->maxPerPage = $maxPerPage;
-
-        if ($this->currentPage && $this->maxPerPage) {
-            $this->paginated = true;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPaginated()
-    {
-        return $this->paginated;
+        return $this->page;
     }
 
     /**
      * @return int
      */
-    public function getCurrentPage()
+    public function getLimit(): int
     {
-        return $this->currentPage;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxPerPage()
-    {
-        return $this->maxPerPage;
+        return $this->limit;
     }
 }
