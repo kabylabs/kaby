@@ -85,9 +85,13 @@ abstract class AbstractController extends BaseController
      */
     protected function response($data, NormalizerInterface $normalizer = null): JsonResponse
     {
+        dump($data);
+
         if ($normalizer) {
             $data = $normalizer->normalize($data);
         }
+
+        dump($data);
 
         return $this->apiResponse->success($data);
     }

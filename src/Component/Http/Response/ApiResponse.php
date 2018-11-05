@@ -28,6 +28,8 @@ final class ApiResponse
         $this->params['meta']['hostname'] = gethostname();
         $this->params['data'] = $data;
 
+        dump($data);
+
         if ($data instanceof PaginatedRepresentation) {
             $this->params['pagination'] = [
                 'page'  => $data->getPage(),
