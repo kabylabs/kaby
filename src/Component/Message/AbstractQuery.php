@@ -15,12 +15,12 @@ abstract class AbstractQuery extends AbstractMessage
     /**
      * @var int
      */
-    private $page;
+    protected $page;
 
     /**
      * @var int
      */
-    private $limit;
+    protected $limit;
 
     /**
      * @return int
