@@ -144,8 +144,8 @@ abstract class AbstractRepository extends EntityRepository implements Repository
      */
     public function paginate($currentPage, $maxPerPage)
     {
-        $this->currentPage = $currentPage;
         $this->maxPerPage = $maxPerPage;
+        $this->currentPage = $currentPage;
         $this->withPagination();
 
         return $this;
@@ -206,8 +206,8 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 
             $factory = new PagerfantaFactory();
             $pagerFanta = new Pagerfanta(new DoctrineORMAdapter($query, false, false));
-            $pagerFanta->setCurrentPage($this->currentPage);
             $pagerFanta->setMaxPerPage($this->maxPerPage);
+            $pagerFanta->setCurrentPage($this->currentPage);
 
             $collection = $factory->createRepresentation($pagerFanta, new Route('route'));
 
