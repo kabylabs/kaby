@@ -64,9 +64,12 @@ abstract class AbstractController extends BaseController
      * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
+     * @throws \ReflectionException
      */
     protected function handle(AbstractMessage $message, NormalizerInterface $normalizer = null): JsonResponse
     {
+        $message->setPayload($this->getRequestAll());
+
         $violations = $this->validate($message);
         if (count($violations) > 0) {
             return $this->apiResponse->error($violations);
