@@ -18,7 +18,7 @@ trait PayloadTrait
      *
      * @throws ReflectionException
      */
-    protected function setPayload(array $payload): void
+    public function setPayload(array $payload): void
     {
         foreach ($payload as $key => $value) {
             $property = camelize($key);
