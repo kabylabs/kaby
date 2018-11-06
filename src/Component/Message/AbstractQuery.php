@@ -27,7 +27,7 @@ abstract class AbstractQuery extends AbstractMessage
      */
     public function getPage(): int
     {
-        return $this->page ?: self::CURRENT_PAGE;
+        return (int) $this->page ?: self::CURRENT_PAGE;
     }
 
     /**
@@ -35,6 +35,6 @@ abstract class AbstractQuery extends AbstractMessage
      */
     public function getLimit(): int
     {
-        return $this->limit ?: self::MAX_PER_PAGE;
+        return (int) $this->limit ?: self::MAX_PER_PAGE;
     }
 }
