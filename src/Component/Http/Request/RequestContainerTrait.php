@@ -25,7 +25,10 @@ trait RequestContainerTrait
      */
     public function getRequestAll(): array
     {
-        return $this->getRequestStack()->getCurrentRequest()->request->all();
+        return array_merge(
+            $this->getRequestStack()->getCurrentRequest()->request->all(),
+            $this->getRequestStack()->getCurrentRequest()->query->all()
+        );
     }
 
     /**
