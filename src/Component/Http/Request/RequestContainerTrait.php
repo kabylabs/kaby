@@ -28,7 +28,8 @@ trait RequestContainerTrait
         return array_merge(
             $this->getRequestStack()->getCurrentRequest()->request->all(),
             $this->getRequestStack()->getCurrentRequest()->query->all(),
-            $this->getRequestStack()->getCurrentRequest()->attributes->get('_route_params')
+            $this->getRequestStack()->getCurrentRequest()->attributes->get('_route_params'),
+            $this->getRequestStack()->getCurrentRequest()->files
         );
     }
 
