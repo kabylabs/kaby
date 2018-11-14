@@ -29,7 +29,7 @@ trait RequestContainerTrait
             $this->getRequestStack()->getCurrentRequest()->request->all(),
             $this->getRequestStack()->getCurrentRequest()->query->all(),
             $this->getRequestStack()->getCurrentRequest()->attributes->get('_route_params'),
-            $this->getRequestStack()->getCurrentRequest()->files
+            $this->getRequestStack()->getCurrentRequest()->files->all()
         );
     }
 
