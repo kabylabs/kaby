@@ -32,7 +32,7 @@ abstract class AbstractEvent extends Event
      * @return string
      * @throws \ReflectionException
      */
-    protected static function getClassName()
+    public static function getClassName()
     {
         $reflection = new ReflectionClass(get_called_class());
         $name = dasherize($reflection->getName());
