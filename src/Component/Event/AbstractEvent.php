@@ -35,7 +35,7 @@ abstract class AbstractEvent extends Event
     public static function getClassName()
     {
         $reflection = new ReflectionClass(get_called_class());
-        $name = dasherize($reflection->getName());
+        $name = dasherize($reflection->getShortName());
 
         return $name;
     }
