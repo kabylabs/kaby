@@ -11,12 +11,34 @@ abstract class AbstractRole
 {
     use DelegatorTrait;
 
+    /**
+     * Constructor.
+     */
     final public function __construct()
     {
     }
 
-    public function supports(object $data): bool
+    /**
+     * Attach data to role
+     *
+     * @param mixed $data
+     */
+    protected function attach($data): void
     {
-        return true;
+        $this->delegated = $data;
+    }
+
+    /**
+     * Extract data
+     *
+     * @return mixed
+     */
+    protected function extract()
+    {
+        if ($this->delegated instanceof BoundedRoleInterface) {
+            return $this->delegated->extract();
+        }
+
+        return $this->delegated;
     }
 }

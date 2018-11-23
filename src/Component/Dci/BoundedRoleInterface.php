@@ -10,9 +10,9 @@ namespace Kaby\Component\Dci;
 interface BoundedRoleInterface
 {
     /**
-     * Extract the data that bounded to role.
+     * Extract data that bounded with role
      *
-     * @return object
+     * @return mixed
      */
-    public function extract(): object;
+    public function extract();
 }

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Dci;
 
-use InvalidArgumentException;
 use ReflectionMethod;
-use RuntimeException;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
@@ -14,100 +12,56 @@ use RuntimeException;
 abstract class AbstractContext
 {
     /**
-     * Execute context.
+     * Add role to specific data
      *
-     * @param array ...$args
-     *
-     * @return mixed
-     */
-    final public function execute(...$args)
-    {
-        $className = get_class($this);
-
-        if (!method_exists($this, 'process')) {
-            throw new RuntimeException(
-                sprintf(
-                    'Context "%s" should have process method',
-                    $className
-                )
-            );
-        }
-
-        $process = new ReflectionMethod($className, 'process');
-
-        if (!$process->isProtected()) {
-            throw new RuntimeException('Method "process" should be protected');
-        }
-
-        return call_user_func_array([$this, 'process'], $args);
-    }
-
-    /**
-     * Add a role to data.
-     *
-     * @param object       $data
+     * @param mixed        $data
      * @param AbstractRole $role
      *
-     * @return BoundedRoleInterface|object
+     * @return BoundedRoleInterface|mixed
      */
-    final protected function addRole(object $data, AbstractRole $role): BoundedRoleInterface
+    final protected function addRole($data, AbstractRole $role)
     {
-        return new class ($role, $data) implements BoundedRoleInterface
+        return new class($role, $data) implements BoundedRoleInterface
         {
             use DelegatorTrait;
 
-            public function __construct(AbstractRole $role, object $data)
-            {
-                if (false === $role->supports($data)) {
-                    throw new InvalidArgumentException(
-                        sprintf(
-                            'Role "%s" does not support for current data',
-                            get_class($role)
-                        )
-                    );
-                }
-
-                $this->attach($this->invoke($role, 'attach', $data));
-            }
-
             /**
-             * Extract data from bounded roles.
-             *
-             * @return object
-             */
-            public function extract(): object
-            {
-                return $this->invoke($this->getInstance(), 'extract');
-            }
-
-            /**
-             * Invoke closure method from role.
+             * Constructor.
              *
              * @param AbstractRole $role
-             * @param string       $method
-             * @param array        ...$args
-             *
-             * @return mixed
+             * @param              $data
              */
-            private function invoke(AbstractRole $role, string $method, ...$args)
+            public function __construct(AbstractRole $role, $data)
             {
-                $method = new ReflectionMethod(get_class($role), $method);
+                $method = new ReflectionMethod(get_class($role), 'attach');
+                $method->setAccessible(true);
+                $method->invoke($role, $data);
+
+                $this->delegated = $role;
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            public function extract()
+            {
+                $method = new ReflectionMethod(get_class($this->delegated), 'extract');
                 $method->setAccessible(true);
 
-                return $method->invoke($role, ...$args);
+                return $method->invoke($this->delegated);
             }
         };
     }
 
     /**
-     * Add multiple roles to data.
+     * Add multiple roles to data
      *
-     * @param object $data
-     * @param array  $roles
+     * @param mixed          $data
+     * @param AbstractRole[] $roles
      *
-     * @return BoundedRoleInterface|object
+     * @return BoundedRoleInterface|mixed
      */
-    final protected function addRoles(object $data, array $roles): BoundedRoleInterface
+    final protected function addRoles($data, array $roles)
     {
         foreach ($roles as $role) {
             $data = $this->addRole($data, $role);
