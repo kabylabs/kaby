@@ -8,6 +8,7 @@ use Kaby\Component\Http\Request\RequestContainerTrait;
 use Kaby\Component\Http\Response\ApiResponse;
 use Kaby\Component\Message\AbstractMessage;
 use Psr\Container\ContainerInterface;
+use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -64,7 +65,7 @@ abstract class AbstractController extends BaseController
      * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function handle(AbstractMessage $message, NormalizerInterface $normalizer = null): JsonResponse
     {
@@ -77,7 +78,11 @@ abstract class AbstractController extends BaseController
 
         $data = $this->dispatch($message);
 
-        return $this->response($data, $normalizer);
+        if ($data && $normalizer) {
+            return $this->response($data, $normalizer);
+        }
+
+        return $this->response($data);
     }
 
     /**
