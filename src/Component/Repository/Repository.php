@@ -9,6 +9,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use function Funct\Strings\chompRight;
+use function Funct\Strings\upperCaseFirst;
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -69,8 +70,10 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
      */
     private function getEntityClass(): string
     {
-        $shortClassName = (new ReflectionClass(get_called_class()))->getShortName();
-        $entityClassName = str_replace('Repository', 'Entity', __NAMESPACE__ . '\\' . chompRight($shortClassName, 'Repository'));
+        $repository = upperCaseFirst('repository');
+        $entity = upperCaseFirst('entity');
+        $repositoryClassName = (new ReflectionClass(get_called_class()))->getName();
+        $entityClassName = str_replace($repository, $entity, chompRight($repositoryClassName, $repository));
 
         return $entityClassName;
     }
