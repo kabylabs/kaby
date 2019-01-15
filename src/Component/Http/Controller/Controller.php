@@ -64,23 +64,27 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param AbstractMessage          $message
+     * @param                          $data
      * @param NormalizerInterface|null $normalizer
      *
      * @return JsonResponse
      * @throws ReflectionException
      */
-    protected function commit(AbstractMessage $message, NormalizerInterface $normalizer = null): JsonResponse
+    protected function commit($data, NormalizerInterface $normalizer = null): JsonResponse
     {
-        $message->setPayload($this->getRequestAll());
+        if ($data instanceof AbstractMessage) {
+            $data->setPayload($this->getRequestAll());
 
-        $violations = $this->validate($message);
+            $violations = $this->validate($data);
 
-        if ($violations->count() > 0) {
-            return $this->apiResponse->error($violations);
+            if ($violations->count() > 0) {
+                return $this->apiResponse->error($violations);
+            }
+
+            $data = $this->handle($data);
         }
 
-        return $this->apiResponse->success($this->handle($message), $normalizer);
+        return $this->apiResponse->success($data, $normalizer);
     }
 
     /**
