@@ -20,16 +20,17 @@
         "pagerfanta/pagerfanta": "^2.0",
         "ramsey/uuid-doctrine": "^1.5",
         "stof/doctrine-extensions-bundle": "^1.3",
-        "symfony/console": "*",
-        "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "*",
-        "symfony/messenger": "*",
+        "symfony/console": "4.2.*",
+        "symfony/flex": "^1.2@dev",
+        "symfony/framework-bundle": "4.2.*",
+        "symfony/messenger": "4.2.*",
         "symfony/orm-pack": "^1.0",
-        "symfony/serializer": "*",
-        "symfony/validator": "*",
-        "symfony/yaml": "*",
+        "symfony/serializer": "4.2.*",
+        "symfony/validator": "4.2.*",
+        "symfony/yaml": "4.2.*",
         "willdurand/hateoas-bundle": "^1.4",
-        "marc-mabe/php-enum": "^3.0@dev"
+        "marc-mabe/php-enum": "^3.0@dev",
+        "symfony/dotenv": "4.2.*"
     },
     "autoload": {
         "psr-4": {
