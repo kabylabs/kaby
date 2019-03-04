@@ -12,6 +12,7 @@ use function Funct\Strings\chompRight;
 use function Funct\Strings\upperCaseFirst;
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\Factory\PagerfantaFactory;
+use Kaby\Component\Specification\SpecificationInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use ReflectionClass;
@@ -51,6 +52,11 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
      * @var int
      */
     protected $maxPerPage;
+
+    /**
+     * @var SpecificationInterface[]
+     */
+    protected $specifications = array();
 
     /**
      * Repository constructor.
@@ -292,9 +298,14 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
             $query->setMaxResults($this->limit);
         }
 
+        foreach ($this->specifications as $specification) {
+            $specification->match($query, $this);
+        }
+
         $this->criteria = [];
         $this->sorting = [];
         $this->limit = null;
+        $this->specifications = array();
 
         return $query;
     }
@@ -377,5 +388,31 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
         $pos = strrpos($this->_entityName, '\\') + 1;
 
         return strtolower(substr($entityName, $pos));
+    }
+
+    /**
+     * @param SpecificationInterface $specification
+     *
+     * @return $this
+     */
+    public function addSpecification(SpecificationInterface $specification)
+    {
+        $this->specifications[] = $specification;
+
+        return $this;
+    }
+
+    /**
+     * @param array $specifications
+     *
+     * @return $this
+     */
+    public function addSpecifications(array $specifications)
+    {
+        foreach ($specifications as $specification) {
+            $this->addSpecification($specification);
+        }
+
+        return $this;
     }
 }

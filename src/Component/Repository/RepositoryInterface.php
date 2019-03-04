@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kaby\Component\Repository;
 
+use Kaby\Component\Specification\SpecificationInterface;
+
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -103,4 +105,18 @@ interface RepositoryInterface
      * @param $entity
      */
     public function remove($entity): void;
+
+    /**
+     * @param SpecificationInterface $specification
+     *
+     * @return $this
+     */
+    public function addSpecification(SpecificationInterface $specification);
+
+    /**
+     * @param SpecificationInterface[] $specifications
+     *
+     * @return $this
+     */
+    public function addSpecifications(array $specifications);
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\Factory\PagerfantaFactory;
+use Kaby\Component\Specification\SpecificationInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
@@ -46,6 +47,11 @@ abstract class AbstractRepository extends EntityRepository implements Repository
      * @var int
      */
     protected $maxPerPage;
+
+    /**
+     * @var SpecificationInterface[]
+     */
+    protected $specifications = array();
 
     public function beginTransaction(): void
     {
@@ -261,9 +267,14 @@ abstract class AbstractRepository extends EntityRepository implements Repository
             $query->setMaxResults($this->limit);
         }
 
+        foreach ($this->specifications as $specification) {
+            $specification->match($query, $this);
+        }
+
         $this->criteria = [];
         $this->sorting = [];
         $this->limit = null;
+        $this->specifications = array();
 
         return $query;
     }
@@ -346,5 +357,31 @@ abstract class AbstractRepository extends EntityRepository implements Repository
         $pos = strrpos($this->_entityName, '\\') + 1;
 
         return strtolower(substr($entityName, $pos));
+    }
+
+    /**
+     * @param SpecificationInterface $specification
+     *
+     * @return $this
+     */
+    public function addSpecification(SpecificationInterface $specification)
+    {
+        $this->specifications[] = $specification;
+
+        return $this;
+    }
+
+    /**
+     * @param array $specifications
+     *
+     * @return $this
+     */
+    public function addSpecifications(array $specifications)
+    {
+        foreach ($specifications as $specification) {
+            $this->addSpecification($specification);
+        }
+
+        return $this;
     }
 }
