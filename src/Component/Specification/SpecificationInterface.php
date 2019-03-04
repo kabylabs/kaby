@@ -16,5 +16,5 @@ interface SpecificationInterface
      * @param QueryBuilder        $query
      * @param RepositoryInterface $repository
      */
-    public function match(QueryBuilder $query, RepositoryInterface $repository);
+    public function match(QueryBuilder $query, RepositoryInterface $repository): void;
 }
