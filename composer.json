@@ -31,7 +31,8 @@
         "willdurand/hateoas-bundle": "^1.4",
         "marc-mabe/php-enum": "^3.0@dev",
         "symfony/dotenv": "4.2.*",
-        "symfony/security-bundle": "4.2.*"
+        "symfony/security-bundle": "4.2.*",
+        "symfony/translation": "4.2.*"
     },
     "autoload": {
         "psr-4": {

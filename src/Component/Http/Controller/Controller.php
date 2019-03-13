@@ -8,12 +8,14 @@ use Hateoas\Representation\PaginatedRepresentation;
 use Kaby\Component\Message\MessageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
@@ -24,6 +26,11 @@ class Controller extends BaseController
      * @var array
      */
     private $params;
+
+    /**
+     * @var RequestStack
+     */
+    private $request;
 
     /**
      * @var MessageBusInterface
@@ -39,6 +46,11 @@ class Controller extends BaseController
      * @var NormalizerInterface
      */
     private $normalizer;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     /**
      * @param $data
@@ -58,6 +70,8 @@ class Controller extends BaseController
     protected function send(): JsonResponse
     {
         $this->messageBus = $this->container->get('message_bus');
+        $this->translator = $this->container->get('translation');
+
         $this->message->setPayload($this->getRequestAll());
         $violations = $this->validate($this->message);
 
@@ -104,13 +118,13 @@ class Controller extends BaseController
      */
     protected function getRequestAll(): array
     {
-        $request = $this->container->get('request_stack');
+        $this->request = $this->container->get('request_stack');
 
         return array_merge(
-            $request->getCurrentRequest()->request->all(),
-            $request->getCurrentRequest()->query->all(),
-            $request->getCurrentRequest()->attributes->get('_route_params'),
-            $request->getCurrentRequest()->files->all()
+            $this->request->getCurrentRequest()->request->all(),
+            $this->request->getCurrentRequest()->query->all(),
+            $this->request->getCurrentRequest()->attributes->get('_route_params'),
+            $this->request->getCurrentRequest()->files->all()
         );
     }
 
@@ -170,7 +184,7 @@ class Controller extends BaseController
         foreach ($violations as $violation) {
             $this->params['errors'][] = [
                 'field'   => $violation->getPropertyPath(),
-                'message' => $violation->getMessage(),
+                'message' => $this->translator->trans($violation->getMessage(), [], null, $this->request->getCurrentRequest()->headers->get('Accept-Language')),
             ];
         }
 
@@ -184,7 +198,8 @@ class Controller extends BaseController
     {
         return array_merge(
             parent::getSubscribedServices(), [
-                'validation' => ValidatorInterface::class
+                'validation'  => ValidatorInterface::class,
+                'translation' => TranslatorInterface::class,
             ]
         );
     }
