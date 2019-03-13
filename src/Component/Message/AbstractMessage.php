@@ -7,7 +7,7 @@ namespace Kaby\Component\Message;
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
-abstract class AbstractMessage
+abstract class AbstractMessage implements MessageInterface
 {
     use PayloadTrait;
 
