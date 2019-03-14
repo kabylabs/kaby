@@ -72,7 +72,7 @@ class Controller extends BaseController
         $this->messageBus = $this->container->get('message_bus');
         $this->translator = $this->container->get('translation');
 
-        $this->message->setPayload($this->getRequestAll());
+        $this->message->setPayload($this->getPayload());
         $violations = $this->validate($this->message);
 
         if ($violations->count() > 0) {
@@ -116,16 +116,11 @@ class Controller extends BaseController
     /**
      * @return array
      */
-    protected function getRequestAll(): array
+    protected function getPayload(): array
     {
         $this->request = $this->container->get('request_stack');
 
-        return array_merge(
-            $this->request->getCurrentRequest()->request->all(),
-            $this->request->getCurrentRequest()->query->all(),
-            $this->request->getCurrentRequest()->attributes->get('_route_params'),
-            $this->request->getCurrentRequest()->files->all()
-        );
+        return $this->request->getCurrentRequest()->request->get('payload');
     }
 
     /**
@@ -184,7 +179,7 @@ class Controller extends BaseController
         foreach ($violations as $violation) {
             $this->params['errors'][] = [
                 'field'   => $violation->getPropertyPath(),
-                'message' => $this->translator->trans($violation->getMessage(), [], 'validators', $this->request->getCurrentRequest()->headers->get('Accept-Language')),
+                'message' => $this->translator->trans($violation->getMessage(), [], 'validators'),
             ];
         }
 
