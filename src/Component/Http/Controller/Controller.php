@@ -184,7 +184,7 @@ class Controller extends BaseController
         foreach ($violations as $violation) {
             $this->params['errors'][] = [
                 'field'   => $violation->getPropertyPath(),
-                'message' => $this->translator->trans($violation->getMessage(), [], null, $this->request->getCurrentRequest()->headers->get('Accept-Language')),
+                'message' => $this->translator->trans($violation->getMessage(), [], 'validators', $this->request->getCurrentRequest()->headers->get('Accept-Language')),
             ];
         }
 
