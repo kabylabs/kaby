@@ -21,6 +21,7 @@ class ApiListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
+        $request->setDefaultLocale($request->headers->get('Accept-Language'));
         $request->setLocale($request->headers->get('Accept-Language'));
     }
 
