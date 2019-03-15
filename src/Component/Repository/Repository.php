@@ -182,7 +182,7 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
      *
      * @return $this|mixed
      */
-    public function paginate(?int $currentPage, ?int $maxPerPage)
+    public function paginate(int $currentPage = null, int $maxPerPage = null)
     {
         $this->maxPerPage = $maxPerPage ?? self::MAX_PER_PAGE;
         $this->currentPage = $currentPage ?? self::CURRENT_PAGE;

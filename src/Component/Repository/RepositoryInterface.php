@@ -92,7 +92,7 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function paginate(?int $currentPage, ?int $maxPerPage);
+    public function paginate(int $currentPage = null, int $maxPerPage = null);
 
     /**
      * Save entity
