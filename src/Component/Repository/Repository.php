@@ -23,6 +23,9 @@ use ReflectionException;
  */
 abstract class Repository extends ServiceEntityRepository implements RepositoryInterface
 {
+    const CURRENT_PAGE = 1;
+    const MAX_PER_PAGE = 50;
+
     /**
      * @var array
      */
@@ -174,15 +177,15 @@ abstract class Repository extends ServiceEntityRepository implements RepositoryI
     }
 
     /**
-     * @param int $currentPage
-     * @param int $maxPerPage
+     * @param int|null $currentPage
+     * @param int|null $maxPerPage
      *
-     * @return $this
+     * @return $this|mixed
      */
-    public function paginate($currentPage, $maxPerPage)
+    public function paginate(?int $currentPage, ?int $maxPerPage)
     {
-        $this->maxPerPage = $maxPerPage;
-        $this->currentPage = $currentPage;
+        $this->maxPerPage = $maxPerPage ?? self::MAX_PER_PAGE;
+        $this->currentPage = $currentPage ?? self::CURRENT_PAGE;
         $this->withPagination();
 
         return $this;

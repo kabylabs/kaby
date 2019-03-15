@@ -87,12 +87,12 @@ interface RepositoryInterface
     public function withLimit(int $limit): void;
 
     /**
-     * @param int $currentPage
-     * @param int $maxPerPage
+     * @param int|null $currentPage
+     * @param int|null $maxPerPage
      *
-     * @return $this
+     * @return mixed
      */
-    public function paginate($currentPage, $maxPerPage);
+    public function paginate(?int $currentPage, ?int $maxPerPage);
 
     /**
      * Save entity
