@@ -143,12 +143,12 @@ abstract class AbstractRepository extends EntityRepository implements Repository
     }
 
     /**
-     * @param int $currentPage
-     * @param int $maxPerPage
+     * @param int|null $currentPage
+     * @param int|null $maxPerPage
      *
-     * @return $this
+     * @return $this|mixed
      */
-    public function paginate($currentPage, $maxPerPage)
+    public function paginate(int $currentPage = null, int $maxPerPage = null)
     {
         $this->maxPerPage = $maxPerPage;
         $this->currentPage = $currentPage;
