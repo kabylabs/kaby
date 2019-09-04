@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kaby\Component\Http\Controller;
 
 use Hateoas\Representation\PaginatedRepresentation;
+use Kaby\Component\Logging\CommandLoggingInterface;
+use Kaby\Component\Logging\CreateLoggingInterface;
 use Kaby\Component\Message\MessageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -84,6 +86,10 @@ class Controller extends BaseController
         /** @var HandledStamp $stamp */
         if ($stamp = $envelope->last(HandledStamp::class)) {
             $data = $stamp->getResult();
+        }
+
+        if ($envelope->getMessage() instanceof CommandLoggingInterface) {
+            $this->logging($envelope->getMessage()->logName(), $envelope->getMessage()->logDescription());
         }
 
         return $this->success($data ?? [], $this->normalizer);
@@ -187,14 +193,29 @@ class Controller extends BaseController
     }
 
     /**
+     * @param string $logName
+     * @param string $logDescription
+     */
+    private function logging(string $logName, string $logDescription): void
+    {
+        $this->container->get('user_activity_log')->create([
+            'context' => [
+                'log_name'        => $logName,
+                'log_description' => $logDescription,
+            ]
+        ]);
+    }
+
+    /**
      * @return array
      */
     public static function getSubscribedServices()
     {
         return array_merge(
             parent::getSubscribedServices(), [
-                'validation'  => ValidatorInterface::class,
-                'translation' => TranslatorInterface::class,
+                'validation'        => ValidatorInterface::class,
+                'translation'       => TranslatorInterface::class,
+                'user_activity_log' => CreateLoggingInterface::class,
             ]
         );
     }
